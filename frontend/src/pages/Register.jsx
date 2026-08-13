@@ -1,26 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import '../styles/auth.css';
+import { API_BASE_URL } from '../config/api';
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      const res = await fetch('/api/auth/register', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
       });
       const data = await res.json();
       if (res.ok) {
-        navigate('/verify-otp', { state: { email } });
+        login(data);
+        navigate('/');
       } else {
         setError(data.message);
       }

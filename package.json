@@ -16,8 +16,5 @@
   ],
   "author": "shivam",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "concurrently": "^10.0.4"
-  }
+  "description": ""
 }
